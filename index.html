@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chapter 3 • Python Fundamentals Simulation</title>
+<style>
+:root{--purple:#492770;--gold:#f2b526;--ink:#23232a;--bg:#f8f7fb;--card:#fff;--line:#e4dfeb;--ok:#e8f5e9;--warn:#fff7dd;}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:980px;margin:auto;padding:22px}.hero{background:var(--purple);color:#fff;border-radius:18px;padding:24px}.hero h1{margin:0 0 8px;font-size:clamp(28px,5vw,44px)}.hero p{margin:5px 0}.score{margin-top:14px;background:#fff;color:var(--ink);padding:12px 16px;border-radius:12px;display:inline-block;font-weight:700}
+section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px}h2{margin:0 0 8px;color:var(--purple)}.hint{background:var(--warn);border-left:5px solid var(--gold);padding:10px 12px;border-radius:8px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{border:2px solid var(--line);border-radius:12px;padding:12px;background:#fff;cursor:pointer;text-align:left;font-size:16px}.choice:hover{border-color:var(--purple)}.choice.selected{border-color:var(--purple);background:#f2ecf8}.choice.correct{background:var(--ok);border-color:#5f9d69}.choice.wrong{background:#fdeeee;border-color:#b85a5a}
+label{display:block;font-weight:700;margin-top:12px}select,input,textarea{width:100%;padding:10px;border:1px solid #aaa;border-radius:10px;font-size:16px;background:#fff}textarea{min-height:90px;font-family:Consolas,monospace}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:12px;padding:14px;overflow:auto;font-size:16px}button.action{background:var(--purple);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:16px;font-weight:700;margin-top:12px;cursor:pointer}.feedback{font-weight:700;margin-top:10px}.mini{font-size:14px;color:#555}.finish{background:var(--warn);border:2px solid var(--gold)}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<div class="hero"><h1>Chapter 3: Python Fundamentals</h1><p>Practice reading, tracing, and fixing beginner Python code.</p><p class="mini" style="color:#fff">Answer choices shuffle each time the page loads.</p><div class="score" id="score">Score: 0 / 15</div></div>
+
+<section><h2>1. Python Basics</h2><p>Choose the best answer for each question.</p>
+<div id="basics"></div><button class="action" onclick="checkBasics()">Check Basics</button><div class="feedback" id="basicsFeedback"></div></section>
+
+<section><h2>2. Put the Process in Order</h2><p>How does Python source code become output?</p>
+<label>Step 1</label><select id="step1"></select><label>Step 2</label><select id="step2"></select><label>Step 3</label><select id="step3"></select>
+<button class="action" onclick="checkSteps()">Check Order</button><div class="feedback" id="stepsFeedback"></div></section>
+
+<section><h2>3. Predict the Output</h2><pre>print("Python")
+print("is")
+print("fun!")</pre>
+<div class="grid" id="outputChoices"></div><button class="action" onclick="checkOutput()">Check Output</button><div class="feedback" id="outputFeedback"></div></section>
+
+<section><h2>4. Find the Valid Python</h2><p>Which line follows Python syntax rules?</p><div class="grid" id="syntaxChoices"></div><button class="action" onclick="checkSyntax()">Check Syntax</button><div class="feedback" id="syntaxFeedback"></div></section>
+
+<section><h2>5. Comments</h2><p>Which line is a valid Python comment?</p><div class="grid" id="commentChoices"></div><button class="action" onclick="checkComment()">Check Comment</button><div class="feedback" id="commentFeedback"></div></section>
+
+<section><h2>6. Fix the Code</h2><p>This line has an error:</p><pre>print(Hello World!)</pre><label>Type the corrected line:</label><input id="fixCode" placeholder='Example format: print("...")' />
+<button class="action" onclick="checkFix()">Check My Fix</button><div class="feedback" id="fixFeedback"></div></section>
+
+<section><h2>7. Build a Tiny Program</h2><p>Complete the program by replacing the blanks. Then click Run Simulation.</p><textarea id="tinyCode"># Your Name
+print("My name is ______")
+print("My favorite food is ______")
+print("My favorite game is ______")</textarea>
+<button class="action" onclick="runTiny()">Run Simulation</button><pre id="tinyOutput">Console output will appear here.</pre><div class="feedback" id="tinyFeedback"></div></section>
+
+<section class="finish"><h2>Finish Line</h2><p>You should now be able to recognize <strong>source code, interpreter, IDE, print(), sequential execution, comments, and basic syntax</strong>.</p><p id="finalMessage"><strong>Complete all challenges, then return to CompuScholar.</strong></p></section>
+</main>
+<script>
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let pts={basics:0,steps:0,output:0,syntax:0,comment:0,fix:0,tiny:0};
+function total(){const n=Object.values(pts).reduce((a,b)=>a+b,0);document.getElementById('score').textContent=`Score: ${n} / 15`;if(n===15)document.getElementById('finalMessage').innerHTML='<strong>Excellent! You completed the Python Fundamentals simulation.</strong>'}
+function makeChoices(el,items,name){el.innerHTML='';shuffle(items).forEach(x=>{const b=document.createElement('button');b.className='choice';b.dataset.value=x.value;b.textContent=x.text;b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove('selected'));b.classList.add('selected')};el.appendChild(b)})}
+const basicQs=[
+{q:'Python is what kind of language?',a:'Interpreted',opts:['Interpreted','Imaginary','Binary','Compiled only']},
+{q:'What is source code?',a:'Human-readable programming instructions',opts:['Human-readable programming instructions','A finished video','A computer monitor','A network cable']},
+{q:'What does an IDE help you do?',a:'Write, run, and test code',opts:['Write, run, and test code','Repair hardware','Connect Wi-Fi','Print documents only']}
+];
+const basics=document.getElementById('basics');basicQs.forEach((q,i)=>{const wrap=document.createElement('div');wrap.innerHTML=`<label>${i+1}. ${q.q}</label>`;const sel=document.createElement('select');sel.id='b'+i;sel.innerHTML='<option value="">Choose...</option>'+shuffle(q.opts).map(o=>`<option>${o}</option>`).join('');wrap.appendChild(sel);basics.appendChild(wrap)});
+function checkBasics(){let n=0;basicQs.forEach((q,i)=>{if(document.getElementById('b'+i).value===q.a)n++});pts.basics=n;basicsFeedback.textContent=n===3?'Great job — all 3 are correct.':`${n} of 3 correct. Try again.`;total()}
+const stepItems=['Write/save source code (.py)','Python interpreter reads the code','Program output appears'];['step1','step2','step3'].forEach(id=>document.getElementById(id).innerHTML='<option value="">Choose...</option>'+shuffle(stepItems).map(o=>`<option>${o}</option>`).join(''));
+function checkSteps(){const a=['Write/save source code (.py)','Python interpreter reads the code','Program output appears'];let n=0;a.forEach((x,i)=>{if(document.getElementById('step'+(i+1)).value===x)n++});pts.steps=n;stepsFeedback.textContent=n===3?'Correct order!':`${n} of 3 steps are correct.`;total()}
+makeChoices(document.getElementById('outputChoices'),[
+{value:'correct',text:'Python\nis\nfun! — each word on its own line'},{value:'x',text:'Python is fun! — all on one line'},{value:'y',text:'Nothing appears'},{value:'z',text:'A syntax error'}],'out');
+function selected(id){const e=[...document.getElementById(id).children].find(x=>x.classList.contains('selected'));return e?e.dataset.value:''}
+function checkOutput(){const ok=selected('outputChoices')==='correct';pts.output=ok?2:0;outputFeedback.textContent=ok?'Correct — Python runs these statements top to bottom.':'Try again. Each print() statement creates output in sequence.';total()}
+makeChoices(document.getElementById('syntaxChoices'),[
+{value:'correct',text:'print("Hello World!")'},{value:'a',text:'print(Hello World!)'},{value:'b',text:'print("Hello World!"'},{value:'c',text:'Print["Hello World!"]'}]);
+function checkSyntax(){const ok=selected('syntaxChoices')==='correct';pts.syntax=ok?2:0;syntaxFeedback.textContent=ok?'Correct — matched parentheses and quotation marks.':'Check the quotation marks and parentheses.';total()}
+makeChoices(document.getElementById('commentChoices'),[
+{value:'correct',text:'# Let me explain'},{value:'a',text:'- Let me explain'},{value:'b',text:'/ Let me explain'},{value:'c',text:'" Let me explain'}]);
+function checkComment(){const ok=selected('commentChoices')==='correct';pts.comment=ok?1:0;commentFeedback.textContent=ok?'Correct — Python comments begin with #.':'Try again. A Python comment starts with the hashtag symbol.';total()}
+function norm(s){return s.replace(/\s+/g,'').replace(/'/g,'"')}
+function checkFix(){const v=norm(document.getElementById('fixCode').value);const ok=v==='print("HelloWorld!")';pts.fix=ok?1:0;fixFeedback.textContent=ok?'Nice fix!':'Almost. Put the text inside quotes and use matching parentheses.';total()}
+function runTiny(){const code=document.getElementById('tinyCode').value;const prints=[...code.matchAll(/print\(["'](.*?)["']\)/g)].map(m=>m[1]);tinyOutput.textContent=prints.length?prints.join('\n'):'No valid print statements found.';const hasComment=code.trim().startsWith('#');const noBlanks=!code.includes('______');const ok=hasComment&&prints.length>=3&&noBlanks;pts.tiny=ok?3:0;tinyFeedback.textContent=ok?'Program looks good! You used a comment and 3 print statements.':'Keep working: replace every blank, keep the comment, and use at least 3 valid print statements.';total()}
+total();
+</script></body></html>
