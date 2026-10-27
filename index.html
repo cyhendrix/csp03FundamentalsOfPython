@@ -46,6 +46,22 @@ function score(){return Object.values(state.best).reduce((a,b)=>a+b,0)}
 function show(page){state.page=page;save();el("studentScreen").hidden=state.started;el("nav").hidden=!state.started;el("progress").hidden=!state.started;for(let i=1;i<=3;i++)el("challenge"+i).hidden=!state.started||page!==i;el("results").hidden=!state.started||page!==4;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",Number(b.dataset.page)===page));el("progress").textContent="Progress: "+Object.values(state.checks).filter(x=>x>0).length+" of 3 lessons checked • "+score()+"/12 points";el("total").textContent="Total score: "+score()+"/12 ("+Math.round(score()/12*100)+"%)";el("resultBreakdown").innerHTML=[1,2,3].map(i=>"<p>Lesson "+i+": "+state.best[i]+"/4 • "+state.checks[i]+" of 2 checks used</p>").join("");el("submitGrade").disabled=![1,2,3].every(i=>state.checks[i]>0);if(state.submitted)el("submitMessage").textContent="Submission request previously sent. Verify in the Grade Checker."}
 function normalized(v){return v.replace(/\\s+/g,"").replace(/'/g,'"')}
 function check(i){if(state.checks[i]>=2)return;let n=0;ids[i].forEach((id,j)=>{const field=el(id);const ok=i===3&&j===3?normalized(field.value)===normalized(answers[i][j]):field.value===answers[i][j];if(ok)n++;field.classList.toggle("field-correct",ok);field.classList.toggle("field-wrong",!ok)});state.checks[i]++;state.best[i]=Math.max(state.best[i],n);const done=n===4||state.checks[i]>=2;el("f"+i).textContent=n+" of 4 correct. "+(done?"Lesson complete. Continue to the next tab.":"You have one more check. Review your answers.");el("f"+i).className="feedback "+(n===4?"good":"bad");el("check"+i).disabled=done;if(done)ids[i].forEach(id=>el(id).disabled=true);save();show(state.page)}
+// Shuffle each question's answer choices once per saved lab, preserving the order on refresh.
+if(!state.choiceOrder)state.choiceOrder={};
+document.querySelectorAll("select[id^='l']").forEach(field=>{
+ const options=[...field.options].filter(o=>o.value).map(o=>({value:o.value,text:o.textContent}));
+ const signature=options.map(o=>o.value).join("|");
+ let order=state.choiceOrder[field.id];
+ if(!order||order.signature!==signature||order.values.length!==options.length){
+   const values=options.map(o=>o.value);
+   for(let i=values.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[values[i],values[j]]=[values[j],values[i]]}
+   order={signature,values};state.choiceOrder[field.id]=order;
+ }
+ const byValue=new Map(options.map(o=>[o.value,o]));
+ field.innerHTML='<option value="">Choose...</option>';
+ order.values.forEach(value=>{const item=byValue.get(value);if(item){const option=document.createElement("option");option.value=item.value;option.textContent=item.text;field.appendChild(option)}});
+});
+save();
 document.querySelectorAll("select[id^='l'],input[id^='l']").forEach(field=>{field.value=state.values[field.id]||"";field.addEventListener(field.tagName==="SELECT"?"change":"input",()=>{state.values[field.id]=field.value;save()})});
 el("firstName").value=state.first;el("lastName").value=state.last;el("classPeriod").value=state.period;
 el("begin").addEventListener("click",()=>{const first=el("firstName").value.trim(),last=el("lastName").value.trim(),period=el("classPeriod").value;if(!first||!last||!period){el("studentError").textContent="Please enter first name, last name, and class period.";return}Object.assign(state,{first,last,period,started:true});sessionStorage.setItem(SESSION_KEY,"yes");save();show(1)});
