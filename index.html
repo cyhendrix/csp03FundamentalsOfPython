@@ -1,76 +1,57 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Chapter 3 • Python Fundamentals Simulation</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 03 • Fundamentals of Python Practice Lab</title>
 <style>
-:root{--purple:#492770;--gold:#f2b526;--ink:#23232a;--bg:#f8f7fb;--card:#fff;--line:#e4dfeb;--ok:#e8f5e9;--warn:#fff7dd;}
-*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
-main{max-width:980px;margin:auto;padding:22px}.hero{background:var(--purple);color:#fff;border-radius:18px;padding:24px}.hero h1{margin:0 0 8px;font-size:clamp(28px,5vw,44px)}.hero p{margin:5px 0}.score{margin-top:14px;background:#fff;color:var(--ink);padding:12px 16px;border-radius:12px;display:inline-block;font-weight:700}
-section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px}h2{margin:0 0 8px;color:var(--purple)}.hint{background:var(--warn);border-left:5px solid var(--gold);padding:10px 12px;border-radius:8px;margin:12px 0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{border:2px solid var(--line);border-radius:12px;padding:12px;background:#fff;cursor:pointer;text-align:left;font-size:16px}.choice:hover{border-color:var(--purple)}.choice.selected{border-color:var(--purple);background:#f2ecf8}.choice.correct{background:var(--ok);border-color:#5f9d69}.choice.wrong{background:#fdeeee;border-color:#b85a5a}
-label{display:block;font-weight:700;margin-top:12px}select,input,textarea{width:100%;padding:10px;border:1px solid #aaa;border-radius:10px;font-size:16px;background:#fff}textarea{min-height:90px;font-family:Consolas,monospace}
-pre{background:#f4f4f4;border:1px solid #ddd;border-radius:12px;padding:14px;overflow:auto;font-size:16px}button.action{background:var(--purple);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:16px;font-weight:700;margin-top:12px;cursor:pointer}.feedback{font-weight:700;margin-top:10px}.mini{font-size:14px;color:#555}.finish{background:var(--warn);border:2px solid var(--gold)}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
+body{font-family:Arial,sans-serif;background:#f8f7fb;color:#23232a;margin:0}main{max-width:900px;margin:auto;padding:24px}header{background:#492770;color:#fff;padding:22px;border-radius:16px}section{background:#fff;border:1px solid #e6e1ee;border-radius:16px;padding:20px;margin-top:18px}h1,h2{margin-top:0}h2{color:#492770}.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.score{background:#fff;color:#23232a;border-radius:12px;padding:12px;text-align:center}label{display:block;margin-top:12px;font-weight:600}select{width:100%;padding:10px;border:1px solid #bbb;border-radius:10px;font-size:16px;background:#fff}button{margin-top:12px;background:#492770;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:16px;cursor:pointer}.feedback{margin-top:10px;font-weight:600}.timeline{display:grid;gap:10px}.callout{background:#fff7dd;border:2px solid #f2b526;border-radius:16px;padding:18px;margin-top:18px}@media(max-width:640px){.scores{grid-template-columns:1fr}}
+
+*{box-sizing:border-box}body{background:#f7f6fb;color:#20242b}header{background:linear-gradient(135deg,#452669,#0b2b5b);border-radius:0;padding:28px 5vw}main{max-width:1050px;padding:0 20px 60px}h2{color:#0b2b5b}section{box-shadow:0 4px 15px #2221;border-radius:18px;padding:24px}.nav{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.nav button{margin:0;background:#fff;color:#452669;border:2px solid #ddd9e5;font-weight:bold}.nav button.active{background:#452669;color:#fff;border-color:#452669}.intro{border:2px solid #f2b526;background:#fffaf0}.intro h2{background:#452669;color:#fff;margin:-24px -24px 20px;padding:15px 24px}.student-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.student-fields input,.student-fields select{width:100%;padding:12px;border:2px solid #a89abc;border-radius:9px;font:inherit}.student-fields label{margin:0}.primary{border:2px solid #f2b526}button:disabled{opacity:.5;cursor:not-allowed}.feedback.good{color:#166d38}.feedback.bad{color:#a5243a}.progress{background:#fff7dd;border-left:6px solid #f2b526;padding:12px 16px;border-radius:10px;margin:16px 0}.field-correct{background:#eaf6e6;border-color:#3f8f45!important}.field-wrong{background:#fff0f0;border-color:#b64b4b!important}#results{border:2px solid #f2b526}#resultBreakdown{line-height:1.8}@media(max-width:650px){.student-fields{grid-template-columns:1fr}}
+[hidden]{display:none!important} .nav{margin:14px 0 18px}\n.print-bank{display:flex;flex-wrap:wrap;gap:10px;padding:16px;background:#f4f0fb;border-radius:12px;min-height:75px;margin:16px 0}.print-tile{padding:12px 16px;background:#452669;color:white;border:2px solid #f2b526;border-radius:10px;font-weight:700;cursor:grab;touch-action:manipulation}.print-tile.selected{outline:4px solid #e2a400}.print-slots{display:grid;gap:12px}.print-step{display:flex;align-items:center;gap:12px}.print-step strong{min-width:75px}.print-drop{flex:1;min-height:60px;border:2px dashed #a18ab6;background:#fff;border-radius:10px;padding:7px;display:flex;align-items:center}.print-drop.over{background:#fff7dd;border-color:#e2a400}.print-drop.field-correct{background:#eaf6e6;border-color:#3f8f45}.print-drop.field-wrong{background:#fff0f0;border-color:#b64b4b}
+.bottom-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:1px solid #e7e1ef}.bottom-nav button{background:#452669;color:#fff;border:2px solid #f2b526;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}.bottom-nav button[data-goto="2"]:last-child,.bottom-nav button[data-goto="3"]:last-child,.bottom-nav button[data-goto="4"]:last-child{margin-left:auto}\n
+pre{white-space:pre-wrap;background:#f4f1f8;padding:15px;border-radius:10px}input{width:100%;padding:12px;border:2px solid #a89abc;border-radius:9px;font:inherit}code{background:#f4f1f8;padding:3px 6px;border-radius:5px}
 </style>
-</head>
-<body><main>
-<div class="hero"><h1>Chapter 3: Python Fundamentals</h1><p>Practice reading, tracing, and fixing beginner Python code.</p><p class="mini" style="color:#fff">Answer choices shuffle each time the page loads.</p><div class="score" id="score">Score: 0 / 15</div></div>
-
-<section><h2>1. Python Basics</h2><p>Choose the best answer for each question.</p>
-<div id="basics"></div><button class="action" onclick="checkBasics()">Check Basics</button><div class="feedback" id="basicsFeedback"></div></section>
-
-<section><h2>2. Put the Process in Order</h2><p>How does Python source code become output?</p>
-<label>Step 1</label><select id="step1"></select><label>Step 2</label><select id="step2"></select><label>Step 3</label><select id="step3"></select>
-<button class="action" onclick="checkSteps()">Check Order</button><div class="feedback" id="stepsFeedback"></div></section>
-
-<section><h2>3. Predict the Output</h2><pre>print("Python")
+</head><body><main>
+<header><p style="color:#f2b526;font-weight:800;letter-spacing:1px">COMPUTER SCIENCE FOUNDATIONS</p><h1>Chapter 03: Fundamentals of Python</h1><p>Interactive Practice Lab • Three Lessons</p></header>
+<section class="intro" id="studentScreen"><h2>Student Information</h2><p>Enter your information to begin. Your work saves automatically on this device.</p><div class="student-fields"><label>First Name<input id="firstName" autocomplete="given-name"></label><label>Last Name<input id="lastName" autocomplete="family-name"></label><label>Class Period<select id="classPeriod"><option value="">Choose block...</option><option>1st Block</option><option>2nd Block</option><option>3rd Block</option><option>4th Block</option></select></label></div><button class="primary" id="begin">Begin Practice</button><p id="studentError" class="feedback bad"></p></section>
+<nav class="nav" id="nav" hidden><button data-page="1">Lesson 1</button><button data-page="2">Lesson 2</button><button data-page="3">Lesson 3</button><button data-page="4">Results</button></nav><div class="progress" id="progress" hidden></div>
+<section id="challenge1" hidden><h2>Lesson 01: Intro to Python</h2><p>Review the purpose of Python, source code, and programming tools.</p>
+<label>1. Python is what kind of programming language?<select id="l1q1"><option value="">Choose...</option><option>Interpreted</option><option>Imaginary</option><option>Binary</option><option>Compiled only</option></select></label>
+<label>2. What is source code?<select id="l1q2"><option value="">Choose...</option><option>A computer monitor</option><option>Human-readable programming instructions</option><option>A network cable</option><option>A finished video</option></select></label>
+<label>3. What does an IDE help programmers do?<select id="l1q3"><option value="">Choose...</option><option>Repair hardware</option><option>Connect Wi-Fi</option><option>Write, run, and test code</option><option>Print documents only</option></select></label>
+<label>4. Which file extension is commonly used for Python source files?<select id="l1q4"><option value="">Choose...</option><option>.jpg</option><option>.py</option><option>.mp3</option><option>.html</option></select></label>
+<button id="check1">Check Lesson 1</button><div id="f1" class="feedback"></div><div class="bottom-nav"><button data-goto="2">Next: Lesson 2 →</button></div></section>
+<section id="challenge2" hidden><h2>Lesson 02: Running Python Programs</h2><p>Put the steps in order, then predict what a short Python program prints.</p>
+<label>1. First step<select id="l2q1"><option value="">Choose...</option><option>Program output appears</option><option>Write or save source code (.py)</option><option>Python interpreter executes the code</option></select></label><label>2. Second step<select id="l2q2"><option value="">Choose...</option><option>Program output appears</option><option>Write or save source code (.py)</option><option>Python interpreter executes the code</option></select></label><label>3. Third step<select id="l2q3"><option value="">Choose...</option><option>Program output appears</option><option>Write or save source code (.py)</option><option>Python interpreter executes the code</option></select></label>
+<pre>print("Python")
 print("is")
 print("fun!")</pre>
-<div class="grid" id="outputChoices"></div><button class="action" onclick="checkOutput()">Check Output</button><div class="feedback" id="outputFeedback"></div></section>
-
-<section><h2>4. Find the Valid Python</h2><p>Which line follows Python syntax rules?</p><div class="grid" id="syntaxChoices"></div><button class="action" onclick="checkSyntax()">Check Syntax</button><div class="feedback" id="syntaxFeedback"></div></section>
-
-<section><h2>5. Comments</h2><p>Which line is a valid Python comment?</p><div class="grid" id="commentChoices"></div><button class="action" onclick="checkComment()">Check Comment</button><div class="feedback" id="commentFeedback"></div></section>
-
-<section><h2>6. Fix the Code</h2><p>This line has an error:</p><pre>print(Hello World!)</pre><label>Type the corrected line:</label><input id="fixCode" placeholder='Example format: print("...")' />
-<button class="action" onclick="checkFix()">Check My Fix</button><div class="feedback" id="fixFeedback"></div></section>
-
-<section><h2>7. Build a Tiny Program</h2><p>Complete the program by replacing the blanks. Then click Run Simulation.</p><textarea id="tinyCode"># Your Name
-print("My name is ______")
-print("My favorite food is ______")
-print("My favorite game is ______")</textarea>
-<button class="action" onclick="runTiny()">Run Simulation</button><pre id="tinyOutput">Console output will appear here.</pre><div class="feedback" id="tinyFeedback"></div></section>
-
-<section class="finish"><h2>Finish Line</h2><p>You should now be able to recognize <strong>source code, interpreter, IDE, print(), sequential execution, comments, and basic syntax</strong>.</p><p id="finalMessage"><strong>Complete all challenges, then return to CompuScholar.</strong></p></section>
-</main>
-<script>
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let pts={basics:0,steps:0,output:0,syntax:0,comment:0,fix:0,tiny:0};
-function total(){const n=Object.values(pts).reduce((a,b)=>a+b,0);document.getElementById('score').textContent=`Score: ${n} / 15`;if(n===15)document.getElementById('finalMessage').innerHTML='<strong>Excellent! You completed the Python Fundamentals simulation.</strong>'}
-function makeChoices(el,items,name){el.innerHTML='';shuffle(items).forEach(x=>{const b=document.createElement('button');b.className='choice';b.dataset.value=x.value;b.textContent=x.text;b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove('selected'));b.classList.add('selected')};el.appendChild(b)})}
-const basicQs=[
-{q:'Python is what kind of language?',a:'Interpreted',opts:['Interpreted','Imaginary','Binary','Compiled only']},
-{q:'What is source code?',a:'Human-readable programming instructions',opts:['Human-readable programming instructions','A finished video','A computer monitor','A network cable']},
-{q:'What does an IDE help you do?',a:'Write, run, and test code',opts:['Write, run, and test code','Repair hardware','Connect Wi-Fi','Print documents only']}
-];
-const basics=document.getElementById('basics');basicQs.forEach((q,i)=>{const wrap=document.createElement('div');wrap.innerHTML=`<label>${i+1}. ${q.q}</label>`;const sel=document.createElement('select');sel.id='b'+i;sel.innerHTML='<option value="">Choose...</option>'+shuffle(q.opts).map(o=>`<option>${o}</option>`).join('');wrap.appendChild(sel);basics.appendChild(wrap)});
-function checkBasics(){let n=0;basicQs.forEach((q,i)=>{if(document.getElementById('b'+i).value===q.a)n++});pts.basics=n;basicsFeedback.textContent=n===3?'Great job — all 3 are correct.':`${n} of 3 correct. Try again.`;total()}
-const stepItems=['Write/save source code (.py)','Python interpreter reads the code','Program output appears'];['step1','step2','step3'].forEach(id=>document.getElementById(id).innerHTML='<option value="">Choose...</option>'+shuffle(stepItems).map(o=>`<option>${o}</option>`).join(''));
-function checkSteps(){const a=['Write/save source code (.py)','Python interpreter reads the code','Program output appears'];let n=0;a.forEach((x,i)=>{if(document.getElementById('step'+(i+1)).value===x)n++});pts.steps=n;stepsFeedback.textContent=n===3?'Correct order!':`${n} of 3 steps are correct.`;total()}
-makeChoices(document.getElementById('outputChoices'),[
-{value:'correct',text:'Python\nis\nfun! — each word on its own line'},{value:'x',text:'Python is fun! — all on one line'},{value:'y',text:'Nothing appears'},{value:'z',text:'A syntax error'}],'out');
-function selected(id){const e=[...document.getElementById(id).children].find(x=>x.classList.contains('selected'));return e?e.dataset.value:''}
-function checkOutput(){const ok=selected('outputChoices')==='correct';pts.output=ok?2:0;outputFeedback.textContent=ok?'Correct — Python runs these statements top to bottom.':'Try again. Each print() statement creates output in sequence.';total()}
-makeChoices(document.getElementById('syntaxChoices'),[
-{value:'correct',text:'print("Hello World!")'},{value:'a',text:'print(Hello World!)'},{value:'b',text:'print("Hello World!"'},{value:'c',text:'Print["Hello World!"]'}]);
-function checkSyntax(){const ok=selected('syntaxChoices')==='correct';pts.syntax=ok?2:0;syntaxFeedback.textContent=ok?'Correct — matched parentheses and quotation marks.':'Check the quotation marks and parentheses.';total()}
-makeChoices(document.getElementById('commentChoices'),[
-{value:'correct',text:'# Let me explain'},{value:'a',text:'- Let me explain'},{value:'b',text:'/ Let me explain'},{value:'c',text:'" Let me explain'}]);
-function checkComment(){const ok=selected('commentChoices')==='correct';pts.comment=ok?1:0;commentFeedback.textContent=ok?'Correct — Python comments begin with #.':'Try again. A Python comment starts with the hashtag symbol.';total()}
-function norm(s){return s.replace(/\s+/g,'').replace(/'/g,'"')}
-function checkFix(){const v=norm(document.getElementById('fixCode').value);const ok=v==='print("HelloWorld!")';pts.fix=ok?1:0;fixFeedback.textContent=ok?'Nice fix!':'Almost. Put the text inside quotes and use matching parentheses.';total()}
-function runTiny(){const code=document.getElementById('tinyCode').value;const prints=[...code.matchAll(/print\(["'](.*?)["']\)/g)].map(m=>m[1]);tinyOutput.textContent=prints.length?prints.join('\n'):'No valid print statements found.';const hasComment=code.trim().startsWith('#');const noBlanks=!code.includes('______');const ok=hasComment&&prints.length>=3&&noBlanks;pts.tiny=ok?3:0;tinyFeedback.textContent=ok?'Program looks good! You used a comment and 3 print statements.':'Keep working: replace every blank, keep the comment, and use at least 3 valid print statements.';total()}
-total();
+<label>4. What will this program display?<select id="l2q4"><option value="">Choose...</option><option>Python is fun! all on one line</option><option>Python, is, and fun! on separate lines</option><option>Nothing appears</option><option>A syntax error</option></select></label>
+<button id="check2">Check Lesson 2</button><div id="f2" class="feedback"></div><div class="bottom-nav"><button data-goto="1">← Previous: Lesson 1</button><button data-goto="3">Next: Lesson 3 →</button></div></section>
+<section id="challenge3" hidden><h2>Lesson 03: Writing Python Code</h2><p>Identify valid Python statements and correct a simple error. Type only the corrected line in the last question.</p>
+<label>1. Which line uses valid Python syntax?<select id="l3q1"><option value="">Choose...</option><option>print("Hello World!")</option><option>print(Hello World!)</option><option>print("Hello World!"</option><option>Print["Hello World!"]</option></select></label>
+<label>2. Which line is a valid Python comment?<select id="l3q2"><option value="">Choose...</option><option># Let me explain</option><option>- Let me explain</option><option>/ Let me explain</option><option>" Let me explain</option></select></label>
+<label>3. Which statement prints the word Welcome?<select id="l3q3"><option value="">Choose...</option><option>print("Welcome")</option><option>print(Welcome)</option><option>PRINT["Welcome"]</option><option>echo Welcome</option></select></label>
+<label>4. Correct this code: <code>print(Hello World!)</code><input id="l3q4" autocomplete="off" spellcheck="false" placeholder="Type the corrected Python line"></label>
+<button id="check3">Check Lesson 3</button><div id="f3" class="feedback"></div><div class="bottom-nav"><button data-goto="2">← Previous: Lesson 2</button><button data-goto="4">Next: Results →</button></div></section>
+<section id="results" hidden><h2>Practice Lab Results</h2><p id="total"></p><div id="resultBreakdown"></div><p>Complete at least one check for each lesson before submitting your grade.</p><button id="submitGrade">Submit Grade</button><p id="submitMessage" class="feedback"></p><button id="resetLab">Reset Entire Lab</button><div class="bottom-nav"><button data-goto="3">← Previous: Lesson 3</button><button data-goto="1">Back to Lab</button></div></section></main><script>
+const KEY="csp03FundamentalsOfPython_activity_v1",SESSION_KEY="csp03_started_session",ENDPOINT="https://script.google.com/a/macros/benhillschools.org/s/AKfycbz9IipEcz2wq8Hbye5zC3pyuXFCW9_4PlutdfW3oRwfKcTW5jMgV3FqxNYVWupvJ8kO/exec";
+const initial={first:"",last:"",period:"",started:false,page:1,values:{},checks:{1:0,2:0,3:0},best:{1:0,2:0,3:0},submitted:false};
+let state;try{state={...initial,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){state={...initial}}
+if(sessionStorage.getItem(SESSION_KEY)!=="yes")state.started=false;
+const el=id=>document.getElementById(id),save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+const ids={1:["l1q1","l1q2","l1q3","l1q4"],2:["l2q1","l2q2","l2q3","l2q4"],3:["l3q1","l3q2","l3q3","l3q4"]};
+const answers={1:["Interpreted","Human-readable programming instructions","Write, run, and test code",".py"],2:["Write or save source code (.py)","Python interpreter executes the code","Program output appears","Python, is, and fun! on separate lines"],3:['print("Hello World!")',"# Let me explain",'print("Welcome")','print("Hello World!")']};
+function score(){return Object.values(state.best).reduce((a,b)=>a+b,0)}
+function show(page){state.page=page;save();el("studentScreen").hidden=state.started;el("nav").hidden=!state.started;el("progress").hidden=!state.started;for(let i=1;i<=3;i++)el("challenge"+i).hidden=!state.started||page!==i;el("results").hidden=!state.started||page!==4;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",Number(b.dataset.page)===page));el("progress").textContent="Progress: "+Object.values(state.checks).filter(x=>x>0).length+" of 3 lessons checked • "+score()+"/12 points";el("total").textContent="Total score: "+score()+"/12 ("+Math.round(score()/12*100)+"%)";el("resultBreakdown").innerHTML=[1,2,3].map(i=>"<p>Lesson "+i+": "+state.best[i]+"/4 • "+state.checks[i]+" of 2 checks used</p>").join("");el("submitGrade").disabled=![1,2,3].every(i=>state.checks[i]>0);if(state.submitted)el("submitMessage").textContent="Submission request previously sent. Verify in the Grade Checker."}
+function normalized(v){return v.replace(/\\s+/g,"").replace(/'/g,'"')}
+function check(i){if(state.checks[i]>=2)return;let n=0;ids[i].forEach((id,j)=>{const field=el(id);const ok=i===3&&j===3?normalized(field.value)===normalized(answers[i][j]):field.value===answers[i][j];if(ok)n++;field.classList.toggle("field-correct",ok);field.classList.toggle("field-wrong",!ok)});state.checks[i]++;state.best[i]=Math.max(state.best[i],n);const done=n===4||state.checks[i]>=2;el("f"+i).textContent=n+" of 4 correct. "+(done?"Lesson complete. Continue to the next tab.":"You have one more check. Review your answers.");el("f"+i).className="feedback "+(n===4?"good":"bad");el("check"+i).disabled=done;if(done)ids[i].forEach(id=>el(id).disabled=true);save();show(state.page)}
+document.querySelectorAll("select[id^='l'],input[id^='l']").forEach(field=>{field.value=state.values[field.id]||"";field.addEventListener(field.tagName==="SELECT"?"change":"input",()=>{state.values[field.id]=field.value;save()})});
+el("firstName").value=state.first;el("lastName").value=state.last;el("classPeriod").value=state.period;
+el("begin").addEventListener("click",()=>{const first=el("firstName").value.trim(),last=el("lastName").value.trim(),period=el("classPeriod").value;if(!first||!last||!period){el("studentError").textContent="Please enter first name, last name, and class period.";return}Object.assign(state,{first,last,period,started:true});sessionStorage.setItem(SESSION_KEY,"yes");save();show(1)});
+document.querySelectorAll("[data-page],[data-goto]").forEach(b=>b.addEventListener("click",()=>{show(Number(b.dataset.page||b.dataset.goto));window.scrollTo({top:0,behavior:"smooth"})}));
+[1,2,3].forEach(i=>{el("check"+i).addEventListener("click",()=>check(i));if(state.checks[i]>0){el("f"+i).textContent=state.best[i]+" correct; "+state.checks[i]+" of 2 checks used.";if(state.checks[i]>=2||state.best[i]===4){el("check"+i).disabled=true;ids[i].forEach(id=>el(id).disabled=true)}}});
+el("submitGrade").addEventListener("click",async()=>{if(![1,2,3].every(i=>state.checks[i]>0))return;el("submitGrade").disabled=true;el("submitMessage").textContent="Sending submission request…";const payload={name:state.last+", "+state.first,period:state.period,chapter:"Chapter 03 | Fundamentals of Python",score:Math.round(score()/12*100)};try{await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});state.submitted=true;save();el("submitMessage").textContent="Submission request sent. Check the spreadsheet to confirm recording."}catch(e){el("submitMessage").textContent="Could not send submission. Try again."}el("submitGrade").disabled=false});
+el("resetLab").addEventListener("click",()=>{if(confirm("Reset all Chapter 3 progress on this device?")){localStorage.removeItem(KEY);sessionStorage.removeItem(SESSION_KEY);location.reload()}});
+show(state.started?state.page:1);
 </script></body></html>
